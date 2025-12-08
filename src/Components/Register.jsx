@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
 import { motion } from 'framer-motion';
+import useAxiosSecure from '../Hooks/useAxiosSecure';
 
 const Register = () => {
     const { createUser, updateUserProfile } = useAuth();
@@ -14,6 +15,7 @@ const Register = () => {
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState('');
     const [uploadingImage, setUploadingImage] = useState(false);
+    const axiosSecure = useAxiosSecure();
     const {
         register,
         handleSubmit,
@@ -93,9 +95,17 @@ const Register = () => {
             
             // Update profile with name and uploaded photo URL
             await updateUserProfile(data.name, imageUrl);
-            
-            // Here you can also store additional user data (address, status, role) in your MongoDB
-            // Example: await axiosSecure.post('/users', { ... })
+
+            const newUser = {
+                name: data.name,
+                email: data.email,
+                photoURL: imageUrl,
+                address: data.address,
+                role: 'user',
+                status: 'active',
+            }
+
+            await axiosSecure.post('/addUsers', newUser);   
             
             navigate(from, { replace: true });
         } catch (err) {

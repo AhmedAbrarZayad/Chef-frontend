@@ -1,7 +1,16 @@
 import React from 'react';
-import { NavLink } from 'react-router';
+import { NavLink, Link } from 'react-router';
+import { useAuth } from '../Hooks/useAuth';
 
 const Navbar = () => {
+    const { user, logout } = useAuth();
+
+    const handleLogout = () => {
+        logout()
+            .then(() => {})
+            .catch(error => console.error('Logout error:', error));
+    };
+
     const NavLinks = (
     <>
         <NavLink
@@ -43,8 +52,41 @@ const Navbar = () => {
                 {NavLinks}
             </ul>
         </div>
-        <div className="navbar-end">
-            <a className="btn rounded-4xl border-2 border-black">Login</a>
+        <div className="navbar-end gap-3">
+            {user ? (
+                <>
+                    {/* User Profile Picture */}
+                    <div className="avatar">
+                        <div className="w-10 rounded-full ring ring-primary-500 ring-offset-2">
+                            <img src={user.photoURL || 'https://via.placeholder.com/40'} alt={user.displayName || 'User'} />
+                        </div>
+                    </div>
+                    {/* Logout Button */}
+                    <button 
+                        onClick={handleLogout}
+                        className="btn rounded-full border-2 border-black hover:bg-primary-500 hover:text-white"
+                    >
+                        Logout
+                    </button>
+                </>
+            ) : (
+                <>
+                    {/* Login Button */}
+                    <Link 
+                        to="/auth/login"
+                        className="btn rounded-full border-2 border-black hover:bg-primary-500 hover:text-white"
+                    >
+                        Login
+                    </Link>
+                    {/* Register Button */}
+                    <Link 
+                        to="/auth/register"
+                        className="btn rounded-full border-2 border-black hover:bg-primary-500 hover:text-white"
+                    >
+                        Register
+                    </Link>
+                </>
+            )}
         </div>
         </div>
     );

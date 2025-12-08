@@ -18,7 +18,7 @@ const Meals = () => {
     queryKey: ['meals', page, sortBy, searchTerm, order],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/all-meals?limit=12&page=${page}&sortBy=${sortBy}&search=${searchTerm}&order=${order}`
+        `/all-meals?limit=10&page=${page}&sortBy=${sortBy}&search=${searchTerm}&order=${order}`
       );
       console.log(order);
       setTotalPages(res.data.totalPages);

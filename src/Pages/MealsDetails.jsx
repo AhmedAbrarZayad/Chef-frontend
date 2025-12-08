@@ -12,6 +12,7 @@ const MealsDetails = () => {
     const axiosSecure = useAxiosSecure();
     const [rating, setRating] = useState(0);
     const [hoveredRating, setHoveredRating] = useState(0);
+    const [formKey, setFormKey] = useState(0);
     const {
         register,
         handleSubmit,
@@ -65,6 +66,7 @@ const MealsDetails = () => {
                 alert('Review submitted successfully!');
                 reset();
                 setRating(0);
+                setFormKey(prev => prev + 1);
                 refetch();
             }
         } catch (error) {
@@ -220,7 +222,7 @@ const MealsDetails = () => {
                                 <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
                                     <span>✍️</span> Add Your Review
                                 </h3>
-                                <form onSubmit={handleSubmit(handleReviewSubmit)} className="space-y-3">
+                                <form key={formKey} onSubmit={handleSubmit(handleReviewSubmit)} className="space-y-3">
                                     <div>
                                         {/* You'll need to use state for the form inputs here */}
                                         <textarea
@@ -250,7 +252,7 @@ const MealsDetails = () => {
                                         </div>
                                         <button
                                             type="submit"
-                                            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-full transition-colors duration-200 text-sm"
+                                            className="bg-white hover:bg-black hover:text-white text-black font-semibold py-2 px-4 rounded-full transition-colors duration-200 text-sm border-2 border-black"
                                         >
                                             Post Review
                                         </button>

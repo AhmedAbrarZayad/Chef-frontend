@@ -8,6 +8,9 @@ import Login from "../Components/Login";
 import Register from "../Components/Register";
 import PrivateRoute from "../Routes/PrivateRoute";
 import OrderPage from "../Pages/OrderPage";
+import ProfilePage from "../Pages/ProfilePage";
+import DashboardRoot from "../Roots/DashboardRoot";
+import MyOrders from "../Pages/MyOrders";
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +33,20 @@ export const router = createBrowserRouter([
           path: "order/:id",
           element: <PrivateRoute><OrderPage /></PrivateRoute>
         },
+        {
+          path: "dashboard",
+          element: <PrivateRoute><DashboardRoot /></PrivateRoute>,
+          children: [
+            {
+              index: true,
+              element: <ProfilePage />
+            },
+            {
+              path: "orders",
+              element: <MyOrders />
+            }
+          ]
+        }
     ],
   },
   {

@@ -1,10 +1,10 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router';
+import { NavLink, Link, useNavigate } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
-
+    const navigate = useNavigate();
     const handleLogout = () => {
         logout()
             .then(() => {})
@@ -56,11 +56,16 @@ const Navbar = () => {
             {user ? (
                 <>
                     {/* User Profile Picture */}
-                    <div className="avatar">
+                    <div className="avatar" onClick={() => navigate('/dashboard')}>
                         <div className="w-10 rounded-full ring ring-primary-500 ring-offset-2">
                             <img src={user.photoURL || 'https://via.placeholder.com/40'} alt={user.displayName || 'User'} />
                         </div>
                     </div>
+                    <button 
+                        className="btn rounded-full border-2 border-black hover:bg-primary-500 hover:text-white"
+                    >
+                        <NavLink to="/dashboard">Dashboard</NavLink>
+                    </button>
                     {/* Logout Button */}
                     <button 
                         onClick={handleLogout}

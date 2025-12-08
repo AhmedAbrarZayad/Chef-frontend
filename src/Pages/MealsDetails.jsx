@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
 import { motion } from 'framer-motion'; // Assuming you meant framer-motion for the motion library based on usage
-import { useParams } from 'react-router';
-import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router';
+import { set, useForm } from 'react-hook-form';
 import { useAuth } from '../Hooks/useAuth';
 
 const MealsDetails = () => {
@@ -13,6 +13,8 @@ const MealsDetails = () => {
     const [rating, setRating] = useState(0);
     const [hoveredRating, setHoveredRating] = useState(0);
     const [formKey, setFormKey] = useState(0);
+    const [liked, setLiked] = useState(false);
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -38,6 +40,14 @@ const MealsDetails = () => {
             return res.data;
         }
     })
+
+    useEffect(() => {
+        const checkIfLiked = async () => {
+            const res = await axiosSecure.get(`/favourites?userEmail=${user.email}&mealId=${id}`);
+            setLiked(res.data.length > 0);
+        }
+        checkIfLiked();
+    }, [user, id, axiosSecure]);
 
     // Handle review submission
     const handleReviewSubmit = async (data) => {
@@ -72,6 +82,43 @@ const MealsDetails = () => {
         } catch (error) {
             console.error('Error submitting review:', error);
             alert('Failed to submit review. Please try again.');
+        }
+    }
+
+    // Handle add to favourites
+    const handleAddToFavourite = async () => {
+        if (!user) {
+            alert('Please login to add to favourites');
+            return;
+        }
+
+        const favouriteData = {
+            userEmail: user.email,
+            mealId: meal._id,
+            mealName: meal.foodName,
+            chefId: meal.chefId,
+            chefName: meal.chefName,
+            price: meal.price,
+            addedTime: new Date().toISOString()
+        };
+
+        try {
+            if(!liked) {
+                setLiked(true);
+                const res = await axiosSecure.post('/addFavourite', favouriteData);
+                if (res.data.insertedId) {
+                    alert('Added to favourites successfully!');
+                }
+            }else{
+                setLiked(false);
+                const res = await axiosSecure.delete(`/removeFavourite?userEmail=${user.email}&mealId=${meal._id}`);
+                if (res.data.deletedCount > 0) {
+                    alert('Removed from favourites successfully!');
+                }
+            }
+        } catch (error) {
+            console.error('Error adding to favourites:', error);
+            alert('Failed to add to favourites. Please try again.');
         }
     }
 
@@ -130,10 +177,29 @@ const MealsDetails = () => {
 
                                 {/* Details Section */}
                                 <div className="p-8 md:p-12">
-                                    <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
-                                        {meal.foodName}
-                                    </h1>
-                                    
+                                    <div className='flex justify-between'>
+                                        <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
+                                            {meal.foodName}
+                                        </h1>
+                                        {/* Add to Favourite Button */}
+                                        <motion.button
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            onClick={handleAddToFavourite}
+                                        >
+                                            {
+                                                liked ? (
+                                                    <svg className="w-10 h-10 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                                                    </svg>
+                                                ) : (
+                                                    <svg className="w-10 h-10 text-gray-400 hover:text-red-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                                    </svg>
+                                                )
+                                            }
+                                        </motion.button>    
+                                    </div>
                                     {/* Chef Info */}
                                     <div className="mb-6 pb-6 border-b border-gray-200">
                                         <div className="flex items-center gap-3 mb-2">
@@ -194,9 +260,10 @@ const MealsDetails = () => {
 
                                     {/* Order Button */}
                                     <motion.button
-                                        whileHover={{ scale: 1.02 }} // Reduced scale effect for better feel
+                                        whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
-                                        className="w-full bg-primary-500 hover:bg-primary-600 text-black font-bold py-4 px-8 rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center justify-center gap-3 border-2 border-black"
+                                        className="w-full bg-primary-500 hover:bg-primary-600 text-black font-bold py-4 px-8 rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center justify-center gap-3 border-2 border-black mb-3"
+                                        onClick={() => navigate(`/order/${meal._id}`)}
                                     >
                                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />

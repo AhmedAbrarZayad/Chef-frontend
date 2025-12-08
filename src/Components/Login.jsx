@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
 import { motion } from 'framer-motion';
 
 const Login = () => {
     const { signIn } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const {
@@ -21,7 +23,7 @@ const Login = () => {
 
         try {
             await signIn(data.email, data.password);
-            navigate('/');
+            navigate(from, { replace: true });
         } catch (err) {
             setError(err.message || 'Failed to login. Please check your credentials.');
         } finally {
@@ -38,9 +40,9 @@ const Login = () => {
         >
             <div className="bg-white rounded-3xl shadow-2xl border-2 border-gray-100 overflow-hidden">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-primary-500 to-orange-600 p-8 text-center">
+                <div className="bg-black p-8 text-center">
                     <h2 className="text-3xl font-extrabold text-white mb-2">Welcome Back!</h2>
-                    <p className="text-orange-100">Login to your LocalChefBazaar account</p>
+                    <p className="text-gray-300">Login to your LocalChefBazaar account</p>
                 </div>
 
                 {/* Form */}
@@ -118,6 +120,7 @@ const Login = () => {
                             Don't have an account?{' '}
                             <Link
                                 to="/auth/register"
+                                state={{ from: location.state?.from }}
                                 className="text-primary-600 hover:text-primary-700 font-semibold hover:underline"
                             >
                                 Register here

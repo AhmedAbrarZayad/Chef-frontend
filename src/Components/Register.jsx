@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
 import { motion } from 'framer-motion';
 
 const Register = () => {
     const { createUser, updateUserProfile } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [imageFile, setImageFile] = useState(null);
@@ -95,7 +97,7 @@ const Register = () => {
             // Here you can also store additional user data (address, status, role) in your MongoDB
             // Example: await axiosSecure.post('/users', { ... })
             
-            navigate('/');
+            navigate(from, { replace: true });
         } catch (err) {
             setError(err.message || 'Failed to create account. Please try again.');
         } finally {
@@ -112,9 +114,9 @@ const Register = () => {
         >
             <div className="bg-white rounded-3xl shadow-2xl border-2 border-gray-100 overflow-hidden">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-primary-500 to-orange-600 p-8 text-center">
+                <div className="bg-black p-8 text-center">
                     <h2 className="text-3xl font-extrabold text-white mb-2">Create Account</h2>
-                    <p className="text-orange-100">Join LocalChefBazaar today!</p>
+                    <p className="text-gray-300">Join LocalChefBazaar today!</p>
                 </div>
 
                 {/* Form */}
@@ -292,6 +294,7 @@ const Register = () => {
                             Already have an account?{' '}
                             <Link
                                 to="/auth/login"
+                                state={{ from: location.state?.from }}
                                 className="text-primary-600 hover:text-primary-700 font-semibold hover:underline"
                             >
                                 Login here

@@ -6,6 +6,8 @@ import MealsDetails from "../Pages/MealsDetails";
 import AuthRoot from "../Roots/AuthRoot";
 import Login from "../Components/Login";
 import Register from "../Components/Register";
+import PrivateRoute from "../Routes/PrivateRoute";
+import OrderPage from "../Pages/OrderPage";
 
 export const router = createBrowserRouter([
   {
@@ -13,16 +15,20 @@ export const router = createBrowserRouter([
     element: <Root />,
     children: [
         {
-            index: true,
-            element: <Home />,
+          index: true,
+          element: <Home />,
         },
         {
-            path: "meals",
-            element: <Meals />
+          path: "meals",
+          element: <Meals />
         },
         {
-            path: "meals/:id",
-            element: <MealsDetails />
+          path: "meals/:id",
+          element: <PrivateRoute><MealsDetails /></PrivateRoute>
+        },
+        {
+          path: "order/:id",
+          element: <PrivateRoute><OrderPage /></PrivateRoute>
         }
     ],
   },

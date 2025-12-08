@@ -1,8 +1,10 @@
 import React from 'react';
 // Corrected import path for Framer Motion
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router';
 
 const Card = ({ meal }) => {
+    const navigate = useNavigate();
     // Destructure for cleaner access and provide safe defaults
     const { 
         foodImage, 
@@ -13,6 +15,11 @@ const Card = ({ meal }) => {
         estimatedDeliveryTime, 
         deliveryArea = "Local Kitchen",
     } = meal;
+
+    const viewMeal = () => {
+        console.log(`Navigating to meal ID: ${meal._id}`);
+        navigate(`/meals/${meal._id}`);
+    }
 
     return (
         <motion.div 
@@ -70,7 +77,7 @@ const Card = ({ meal }) => {
                 </div>
                 
                 {/* Button at the bottom */}
-                <div className="mt-auto border-2 border-black rounded-full">
+                <div className="mt-auto border-2 border-black rounded-full" onClick={viewMeal}>
                     <button className="btn btn-primary w-full bg-white text-black hover:bg-black hover:text-white border-none font-semibold shadow-md transition-colors duration-200 border-2 border-black rounded-full">
                         View Meal
                     </button>

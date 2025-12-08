@@ -2,8 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
 import { motion } from 'motion/react';
+import { useParams } from 'react-router';
 
-const MealsDetails = ({ id }) => {
+const MealsDetails = () => {
+    const { id } = useParams();
     const axiosSecure = useAxiosSecure();
     const { data: meal, isLoading } = useQuery({
         queryKey: ['mealDetails', id],
@@ -30,13 +32,13 @@ const MealsDetails = ({ id }) => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-white to-orange-50 py-12">
+        <div className="min-h-screen bg-linear-to-b from-white to-orange-50 py-12">
             <div className="container mx-auto px-4 max-w-6xl">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="bg-white rounded-3xl shadow-2xl overflow-hidden"
+                    className="bg-white rounded-3xl shadow-2xl overflow-hidden border-2"
                 >
                     {/* Header Section with Image */}
                     <div className="grid md:grid-cols-2 gap-8">
@@ -129,7 +131,7 @@ const MealsDetails = ({ id }) => {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="w-full bg-primary-500 hover:bg-primary-600 text-white font-bold py-4 px-8 rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center justify-center gap-3"
+                                className="w-full bg-primary-500 hover:bg-primary-600 text-black font-bold py-4 px-8 rounded-full text-lg shadow-lg transition-colors duration-200 flex items-center justify-center gap-3 border-2 border-black"
                             >
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />

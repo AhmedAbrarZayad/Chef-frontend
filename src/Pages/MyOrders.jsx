@@ -19,6 +19,19 @@ const MyOrders = () => {
         enabled: !!user?.email
     });
 
+    const handlePayment = async (order) => {
+        const paymentInfo = {
+            id: order._id,
+            senderEmail: user?.email,
+            cost: order.price * order.quantity,
+        }
+        const res = await axiosSecure.post('/create-checkout-session', paymentInfo);
+        console.log('Checkout Session:', res.data);
+        if (res.data && res.data.url) {
+            window.location.href = res.data.url;
+        }
+    }
+
     const orders = data?.items || [];
     const totalPages = data?.totalPages || 0;
 
@@ -151,8 +164,9 @@ const MyOrders = () => {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             className="w-full bg-black hover:bg-gray-800 text-white font-bold py-3 px-4 rounded-xl transition-all duration-200"
+                            onClick={() => handlePayment(order)}
                         >
-                            Track Order
+                            Pay Now
                         </motion.button>
                     </motion.div>
                 ))}

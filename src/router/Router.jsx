@@ -13,6 +13,8 @@ import DashboardRoot from "../Roots/DashboardRoot";
 import MyOrders from "../Pages/MyOrders";
 import MyReviews from "../Pages/MyReviews";
 import MyFavourites from "../Pages/MyFavourites";
+import PaymentSuccessful from "../Components/PaymentSuccessful";
+import PaymentFailed from "../Components/PaymentFailed";
 
 export const router = createBrowserRouter([
   {
@@ -59,11 +61,11 @@ export const router = createBrowserRouter([
         },
         {
           path: "payment-success",
-          element: <div>Payment Success Page</div>
+          element: <PaymentSuccessful />
         },
         {
           path: "payment-failed",  
-          element: <div>Payment Failure Page</div>
+          element: <PaymentFailed />
         }
     ],
   },

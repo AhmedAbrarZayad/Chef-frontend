@@ -17,7 +17,7 @@ const ReviewsLayout = () => {
         queryFn: async () => {
             // Fetch more than 6 reviews to populate the carousel nicely
             const res = await axiosSecure.get('/all-reviews?limit=10');
-            return res.data;
+            return res.data.items;
         }
     });
 

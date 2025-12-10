@@ -1,11 +1,28 @@
-import React from 'react';
-import { useOutletContext } from 'react-router';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import useAxiosSecure from '../Hooks/useAxiosSecure';
+import { useAuth } from '../Hooks/useAuth';
+import { useQuery } from '@tanstack/react-query';
 
 const MyOrders = () => {
-    const { orders, ordersLoading } = useOutletContext();
+    const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
+    const [currentPage, setCurrentPage] = useState(1);
+    const limit = 3;
 
-    if (ordersLoading) {
+    const { data, isLoading } = useQuery({
+        queryKey: ['orders', user?.email, currentPage],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/orders?email=${user?.email}&page=${currentPage}&limit=${limit}`);
+            return res.data;
+        },
+        enabled: !!user?.email
+    });
+
+    const orders = data?.items || [];
+    const totalPages = data?.totalPages || 0;
+
+    if (isLoading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
                 <div className="loading loading-spinner loading-lg text-primary-500"></div>
@@ -26,6 +43,11 @@ const MyOrders = () => {
             </div>
         );
     }
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     return (
         <div className="w-full">
@@ -135,6 +157,44 @@ const MyOrders = () => {
                     </motion.div>
                 ))}
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+                <div className="mt-8 flex justify-center items-center gap-2">
+                    {/* Previous Button */}
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="px-4 py-2 rounded-xl border-2 border-black font-bold hover:bg-black hover:text-white transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-black"
+                    >
+                        Previous
+                    </button>
+
+                    {/* Page Numbers */}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                        <button
+                            key={page}
+                            onClick={() => handlePageChange(page)}
+                            className={`w-10 h-10 rounded-xl border-2 border-black font-bold transition-all duration-200 ${
+                                currentPage === page
+                                    ? 'bg-black text-white'
+                                    : 'bg-white text-black hover:bg-black hover:text-white'
+                            }`}
+                        >
+                            {page}
+                        </button>
+                    ))}
+
+                    {/* Next Button */}
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="px-4 py-2 rounded-xl border-2 border-black font-bold hover:bg-black hover:text-white transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-black"
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

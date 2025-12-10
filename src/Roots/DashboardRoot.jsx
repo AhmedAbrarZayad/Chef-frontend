@@ -5,32 +5,11 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
 
 const DashboardRoot = () => {
-    const {user} = useAuth();
-    const axiosSecure = useAxiosSecure();
-    const {data: orders, isLoading } = useQuery({
-        queryKey: ['orders', user?.email],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/orders?email=${user?.email}`);
-            return res.data;
-        }
-    });
-    const {data: reviews, isLoading: reviewLoading} = useQuery({
-        queryKey: ['reviews', user?.email],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/all-reviews?email=${user?.email}`);
-            return res.data;
-        }
-    })
-
-    const value = {
-        orders: orders,
-        ordersLoading: isLoading,
-        reviews: reviews,
-        reviewLoading: reviewLoading
-    }
     const NavLinks = [
         <NavLink to={'/dashboard'}>My Profile</NavLink>,
-        <NavLink to={'/dashboard/orders'}>My Orders</NavLink>
+        <NavLink to={'/dashboard/orders'}>My Orders</NavLink>,
+        <NavLink to={'/dashboard/reviews'}>My Reviews</NavLink>,
+        <NavLink to={'/dashboard/favourites'}>Favourite Meals</NavLink>
     ];
     return (
         <div className='flex flex-col md:flex-row min-h-screen gap-12 p-12'>
@@ -44,7 +23,7 @@ const DashboardRoot = () => {
                 }
             </div>
             <div className='flex justify-center w-full'>
-                <Outlet context={value}/>
+                <Outlet/>
             </div>
         </div>
     );

@@ -54,8 +54,16 @@ export const router = createBrowserRouter([
             {
               path: "favourites",
               element: <MyFavourites />
-            }
+            },
           ]
+        },
+        {
+          path: "payment-success",
+          element: <div>Payment Success Page</div>
+        },
+        {
+          path: "payment-failed",  
+          element: <div>Payment Failure Page</div>
         }
     ],
   },
@@ -72,5 +80,5 @@ export const router = createBrowserRouter([
         element: <Register />
       }
     ]
-  }
+  },
 ]);

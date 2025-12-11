@@ -35,7 +35,7 @@ const ProfilePage = () => {
             setRequestLoading(true);
 
             const requestData = {
-                _id: userData._id,
+                userId: userData._id,
                 userName: userData.name,
                 userEmail: userData.email,
                 requestType: requestType,
@@ -133,14 +133,14 @@ const ProfilePage = () => {
                                 <h2 className="text-2xl font-bold text-black">Bio & other details</h2>
                                 {/* Status Badge */}
                                 <div className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${
-                                    userData.status === 'active' 
-                                        ? 'bg-green-500/20 text-green-400' 
-                                        : 'bg-red-500/20 text-red-400'
+                                    userData.fraud === 'yes' 
+                                        ? 'bg-red-500/20 text-red-400'
+                                        : 'bg-green-500/20 text-green-400' 
                                 }`}>
                                     <div className={`w-2 h-2 rounded-full ${
-                                        userData.status === 'active' ? 'bg-green-400' : 'bg-red-400'
+                                        userData.fraud === 'yes' ? 'bg-red-400' : 'bg-green-400'
                                     }`}></div>
-                                    {userData.status === 'active' ? 'Active' : 'Fraud'}
+                                    {userData.fraud === 'yes' ? 'Fraud' : 'Active'}
                                 </div>
                             </div>
 
@@ -156,7 +156,7 @@ const ProfilePage = () => {
                                     {/* Status */}
                                     <div>
                                         <label className="block text-gray-400 text-sm mb-2">Account Status</label>
-                                        <p className="text-black font-semibold text-lg">{userData.status.charAt(0).toUpperCase() + userData.status.slice(1)}</p>
+                                        <p className="text-black font-semibold text-lg">{userData.fraud === 'yes' ? 'Fraud' : 'Active'}</p>
                                     </div>
 
                                     {/* Email */}
@@ -193,7 +193,7 @@ const ProfilePage = () => {
                                         }`}>
                                             🏆 {userData.role.charAt(0).toUpperCase() + userData.role.slice(1)} Member
                                         </span>
-                                        {userData.status === 'active' && (
+                                        {userData.fraud !== 'yes' && (
                                             <span className="px-3 py-1 rounded-full text-sm font-bold bg-green-500/20 text-green-400 inline-flex items-center gap-2">
                                                 ✓ Verified User
                                             </span>

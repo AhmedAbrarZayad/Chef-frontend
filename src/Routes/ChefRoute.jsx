@@ -38,7 +38,7 @@ const ChefRoute = ({ children }) => {
   }
 
   if (!isChef) {
-    return <Navigate to="*" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return children;

@@ -31,7 +31,7 @@ const ManageRequests = () => {
             try {
                 const res = await axiosSecure.patch(`/approve-request/${request._id}`, {
                     requestType: request.requestType,
-                    userId: request._id
+                    userId: request.userId
                 });
 
                 if (res.data.success) {

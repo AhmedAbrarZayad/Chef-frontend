@@ -38,7 +38,7 @@ const AdminRoute = ({ children }) => {
   }
 
   if (!isAdmin) {
-    return <Navigate to="*" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return children;

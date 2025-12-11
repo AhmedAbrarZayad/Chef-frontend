@@ -9,22 +9,24 @@ const DashboardRoot = () => {
     const {role, isLoading: isRoleLoading} = useRole();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     
+    const linkClass = 'bg-white hover:bg-black hover:text-white text-black border-2 border-black font-bold py-3 px-6 rounded-xl transition-all duration-200 block text-center';
+    
     const NavLinks = [
-        <NavLink to={'/dashboard'} onClick={() => setIsSidebarOpen(false)}>My Profile</NavLink>,
+        <NavLink to={'/dashboard'} onClick={() => setIsSidebarOpen(false)} className={linkClass}>My Profile</NavLink>,
         ...(((role === 'user')) ? [
-            <NavLink to={'/dashboard/orders'} onClick={() => setIsSidebarOpen(false)}>My Orders</NavLink>,
-            <NavLink to={'/dashboard/reviews'} onClick={() => setIsSidebarOpen(false)}>My Reviews</NavLink>,
-            <NavLink to={'/dashboard/favourites'} onClick={() => setIsSidebarOpen(false)}>Favourite Meals</NavLink>
+            <NavLink to={'/dashboard/orders'} onClick={() => setIsSidebarOpen(false)} className={linkClass}>My Orders</NavLink>,
+            <NavLink to={'/dashboard/reviews'} onClick={() => setIsSidebarOpen(false)} className={linkClass}>My Reviews</NavLink>,
+            <NavLink to={'/dashboard/favourites'} onClick={() => setIsSidebarOpen(false)} className={linkClass}>Favourite Meals</NavLink>
         ] : []),
         ...(((role === 'chef')) ? [
-            <NavLink to={'/dashboard/create-meal'} onClick={() => setIsSidebarOpen(false)}>Create Meal</NavLink>,
-            <NavLink to={'/dashboard/my-meals'} onClick={() => setIsSidebarOpen(false)}>My Meals</NavLink>,
-            <NavLink to={'/dashboard/order-approval'} onClick={() => setIsSidebarOpen(false)}>Order Requests</NavLink>
+            <NavLink to={'/dashboard/create-meal'} onClick={() => setIsSidebarOpen(false)} className={linkClass}>Create Meal</NavLink>,
+            <NavLink to={'/dashboard/my-meals'} onClick={() => setIsSidebarOpen(false)} className={linkClass}>My Meals</NavLink>,
+            <NavLink to={'/dashboard/order-approval'} onClick={() => setIsSidebarOpen(false)} className={linkClass}>Order Requests</NavLink>
         ] : []),
         ...((role === 'admin' ? [
-            <NavLink to={'/dashboard/manage-users'} onClick={() => setIsSidebarOpen(false)}>Manage Users</NavLink>,
-            <NavLink to={'/dashboard/manage-requests'} onClick={() => setIsSidebarOpen(false)}>Manage Requests</NavLink>,
-            <NavLink to={'/dashboard/platform-statistics'} onClick={() => setIsSidebarOpen(false)}>Platform Statistics</NavLink>
+            <NavLink to={'/dashboard/manage-users'} onClick={() => setIsSidebarOpen(false)} className={linkClass}>Manage Users</NavLink>,
+            <NavLink to={'/dashboard/manage-requests'} onClick={() => setIsSidebarOpen(false)} className={linkClass}>Manage Requests</NavLink>,
+            <NavLink to={'/dashboard/platform-statistics'} onClick={() => setIsSidebarOpen(false)} className={linkClass}>Platform Statistics</NavLink>
         ] : []))
     ];
     
@@ -69,7 +71,7 @@ const DashboardRoot = () => {
                 </button>
                 
                 {NavLinks.map((link, index) => (
-                    <div key={index} className='bg-white hover:bg-black hover:text-white text-black border-2 border-black font-bold py-3 px-6 rounded-xl transition-all duration-200'>
+                    <div key={index}>
                         {link}
                     </div>
                 ))}

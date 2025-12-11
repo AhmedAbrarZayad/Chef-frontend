@@ -23,6 +23,7 @@ import ManageRequests from "../Pages/ManageRequests";
 import PlatformStatistics from "../Pages/PlatformStatistics";
 import ErrorPage from "../Components/ErrorPage";
 import ChefRoute from "../Routes/ChefRoute";
+import AdminRoute from "../Routes/AdminRoute";
 
 export const router = createBrowserRouter([
   {

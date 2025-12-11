@@ -13,7 +13,7 @@ const AdminRoute = ({ children }) => {
   const { data, isLoading } = useQuery({
     queryKey: ['admin-status', user?.email],
     queryFn: async () => {
-      const response = await axiosSecure.get(`/users-role?email=${user?.email}`);
+      const response = await axiosSecure.get(`/user-role?email=${user?.email}`);
       return response.data;
     },
     enabled: !!user?.email, 

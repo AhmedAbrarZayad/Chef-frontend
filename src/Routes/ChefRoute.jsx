@@ -13,12 +13,12 @@ const ChefRoute = ({ children }) => {
   const { data, isLoading } = useQuery({
     queryKey: ['chef-status', user?.email],
     queryFn: async () => {
-      const response = await axiosSecure.get(`/users-role?email=${user?.email}`);
+      const response = await axiosSecure.get(`/user-role?email=${user?.email}`);
       return response.data;
     },
     enabled: !!user?.email, 
   });
-
+  console.log(data);
   const isChef = data?.role === "chef";
 
   if (loading) return <LoadingScreen />;

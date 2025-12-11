@@ -31,7 +31,27 @@ const OrderPage = () => {
         }
     });
 
+    const { data: fraudStatus } = useQuery({
+        queryKey: ['fraudStatus', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/check-fraud/${user?.email}`);
+            return res.data;
+        },
+        enabled: !!user?.email
+    });
+
     const onSubmit = async (data) => {
+        // Check if user is marked as fraud
+        if (fraudStatus?.fraud === "yes") {
+            Swal.fire({
+                title: 'Access Denied',
+                text: 'Your account has been marked as fraud. You cannot place orders.',
+                icon: 'error',
+                confirmButtonColor: '#f97316'
+            });
+            return;
+        }
+
         const totalPrice = (meal.price * data.quantity).toFixed(2);
 
         // Show confirmation dialog
@@ -76,12 +96,23 @@ const OrderPage = () => {
                 }
             } catch (error) {
                 console.error('Error placing order:', error);
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Failed to place order. Please try again.',
-                    icon: 'error',
-                    confirmButtonColor: '#f97316'
-                });
+                
+                // Check if error is from fraud status
+                if (error.response?.status === 403) {
+                    Swal.fire({
+                        title: 'Access Denied',
+                        text: error.response?.data?.error || 'You are not authorized to place orders',
+                        icon: 'error',
+                        confirmButtonColor: '#f97316'
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to place order. Please try again.',
+                        icon: 'error',
+                        confirmButtonColor: '#f97316'
+                    });
+                }
             } finally {
                 setLoading(false);
             }
@@ -120,6 +151,21 @@ const OrderPage = () => {
                             <h1 className="text-3xl font-extrabold text-white mb-2">Place Your Order</h1>
                             <p className="text-gray-300">Review your order details and confirm</p>
                         </div>
+
+                        {/* Fraud Warning */}
+                        {fraudStatus?.fraud === "yes" && (
+                            <div className="mx-8 mt-8 bg-red-100 border-2 border-red-500 rounded-lg p-4">
+                                <div className="flex items-center gap-3">
+                                    <svg className="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                    </svg>
+                                    <div>
+                                        <h3 className="font-bold text-red-800">Account Restricted</h3>
+                                        <p className="text-sm text-red-700">Your account has been marked as fraud. You cannot place orders.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Order Summary */}
                         <div className="p-8 border-b border-gray-200 bg-gray-50">
@@ -275,13 +321,20 @@ const OrderPage = () => {
 
                                 {/* Submit Button */}
                                 <motion.button
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
+                                    whileHover={{ scale: fraudStatus?.fraud === "yes" ? 1 : 1.02 }}
+                                    whileTap={{ scale: fraudStatus?.fraud === "yes" ? 1 : 0.98 }}
                                     type="submit"
-                                    disabled={loading}
+                                    disabled={loading || fraudStatus?.fraud === "yes"}
                                     className="w-full bg-primary-500 hover:bg-primary-600 text-black font-bold py-4 px-8 rounded-xl text-lg shadow-lg transition-all duration-200 border-2 border-black disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    {loading ? (
+                                    {fraudStatus?.fraud === "yes" ? (
+                                        <span className="flex items-center justify-center gap-2">
+                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                            </svg>
+                                            Account Restricted
+                                        </span>
+                                    ) : loading ? (
                                         <span className="flex items-center justify-center gap-2">
                                             <span className="loading loading-spinner loading-sm"></span>
                                             Processing...

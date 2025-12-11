@@ -35,6 +35,7 @@ const ProfilePage = () => {
             setRequestLoading(true);
 
             const requestData = {
+                _id: userData._id,
                 userName: userData.name,
                 userEmail: userData.email,
                 requestType: requestType,

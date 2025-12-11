@@ -162,7 +162,7 @@ const ManageUsers = () => {
                                     )}
                                     {user.fraud === 'yes' && (
                                         <button
-                                            disabled
+                                            disabled 
                                             className="bg-gray-300 text-gray-500 font-semibold py-2 px-4 rounded-lg cursor-not-allowed"
                                         >
                                             Already Fraud

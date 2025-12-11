@@ -22,6 +22,15 @@ const CreateMeals = () => {
         }
     })
 
+    const {data: fraudStatus} = useQuery({
+        queryKey: ['fraudStatus', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/check-fraud/${user?.email}`);
+            return res.data;
+        },
+        enabled: !!user?.email
+    })
+
     const {
         register,
         handleSubmit,
@@ -76,6 +85,18 @@ const CreateMeals = () => {
         setLoading(true);
 
         try {
+            // Check if user is marked as fraud
+            if (fraudStatus?.fraud === "yes") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Access Denied',
+                    text: 'Your account has been marked as fraud. You cannot create meals.',
+                    confirmButtonColor: '#000000',
+                });
+                setLoading(false);
+                return;
+            }
+
             // Validate image file
             if (!imageFile) {
                 Swal.fire({
@@ -132,11 +153,21 @@ const CreateMeals = () => {
             }
         } catch (error) {
             console.error(error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: error.message || 'Failed to create meal',
-            });
+            
+            // Check if error is from fraud status
+            if (error.response?.status === 403) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Access Denied',
+                    text: error.response?.data?.error || 'You are not authorized to create meals',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: error.message || 'Failed to create meal',
+                });
+            }
         } finally {
             setLoading(false);
         }
@@ -150,6 +181,21 @@ const CreateMeals = () => {
                 className='bg-white border-2 border-black rounded-xl p-8'
             >
                 <h1 className='text-3xl font-bold text-center mb-8'>Create New Meal</h1>
+
+                {/* Fraud Warning */}
+                {fraudStatus?.fraud === "yes" && (
+                    <div className="mb-6 bg-red-100 border-2 border-red-500 rounded-lg p-4">
+                        <div className="flex items-center gap-3">
+                            <svg className="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                            </svg>
+                            <div>
+                                <h3 className="font-bold text-red-800">Account Restricted</h3>
+                                <p className="text-sm text-red-700">Your account has been marked as fraud. You cannot create meals.</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
                     {/* Food Name */}
@@ -258,12 +304,12 @@ const CreateMeals = () => {
                     {/* Submit Button */}
                     <motion.button
                         type='submit'
-                        disabled={loading || uploadingImage}
-                        whileHover={{ scale: loading || uploadingImage ? 1 : 1.02 }}
-                        whileTap={{ scale: loading || uploadingImage ? 1 : 0.98 }}
+                        disabled={loading || uploadingImage || fraudStatus?.fraud === "yes"}
+                        whileHover={{ scale: loading || uploadingImage || fraudStatus?.fraud === "yes" ? 1 : 1.02 }}
+                        whileTap={{ scale: loading || uploadingImage || fraudStatus?.fraud === "yes" ? 1 : 0.98 }}
                         className='w-full bg-black text-white font-bold py-4 rounded-lg hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed'
                     >
-                        {loading ? 'Creating Meal...' : uploadingImage ? 'Uploading Image...' : 'Create Meal'}
+                        {loading ? 'Creating Meal...' : uploadingImage ? 'Uploading Image...' : fraudStatus?.fraud === "yes" ? 'Account Restricted' : 'Create Meal'}
                     </motion.button>
                 </form>
             </motion.div>

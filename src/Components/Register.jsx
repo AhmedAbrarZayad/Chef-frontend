@@ -103,6 +103,7 @@ const Register = () => {
                 address: data.address,
                 role: 'user',
                 status: 'active',
+                fraud: 'no',
             }
 
             await axiosSecure.post('/addUsers', newUser);   

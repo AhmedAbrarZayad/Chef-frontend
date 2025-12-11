@@ -19,8 +19,9 @@ const DashboardRoot = () => {
             <NavLink to={'/dashboard/my-meals'}>My Meals</NavLink>,
             <NavLink to={'/dashboard/order-approval'}>Order Requests</NavLink>
         ] : []),
-        ...DashboardRoot((role === 'admin' ? [
-            <NavLink>Manage Users</NavLink>
+        ...((role === 'admin' ? [
+            <NavLink to={'/dashboard/manage-users'}>Manage Users</NavLink>,
+            <NavLink to={'/dashboard/manage-requests'}>Manage Requests</NavLink>
         ] : []))
     ];
     return (

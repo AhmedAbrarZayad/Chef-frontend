@@ -4,7 +4,7 @@ import { useAuth } from './useAuth';
 import { useNavigate } from 'react-router';
 
 const axiosSecure = axios.create({
-    baseURL: 'https://chef-backend-zeta.vercel.app',
+    baseURL: 'https://chef-backend-seven.vercel.app/',
     withCredentials: true
 })
 const useAxiosSecure = () => {

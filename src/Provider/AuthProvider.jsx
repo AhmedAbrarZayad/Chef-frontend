@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { AuthContext } from "../Context/AuthContext";
 import { auth } from "../auth/auth";
+import LoadingScreen from "../Components/LoadingScreen";
 
 
 const AuthProvider = ({ children }) => {
@@ -58,6 +59,10 @@ const AuthProvider = ({ children }) => {
         logout,
         updateUserProfile,
     };
+
+    if (loading) {
+        return <LoadingScreen />;
+    }
 
     return (
         <AuthContext.Provider value={value}>

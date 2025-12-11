@@ -42,8 +42,8 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className='container mx-auto px-4 pb-4'>
-      <div className="relative h-[600px] w-full overflow-hidden rounded-3xl shadow-2xl group">
+    <div className='container mx-auto px-2 sm:px-4 pb-4'>
+      <div className="relative h-[400px] sm:h-[500px] lg:h-[600px] w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl group">
         
         <AnimatePresence mode='wait'>
           <motion.div
@@ -64,7 +64,7 @@ const Hero = () => {
 
         {/* TEXT CONTENT ANIMATION */}
         <div className="absolute inset-0 flex items-center justify-center text-center text-neutral-content z-10">
-          <div className="max-w-2xl px-4">
+          <div className="max-w-2xl px-4 sm:px-6">
             <AnimatePresence mode='wait'>
               <motion.div
                 key={currentIndex}
@@ -73,16 +73,16 @@ const Hero = () => {
                 exit={{ y: -20, opacity: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }} // Delay text slightly after bg
               >
-                <h1 className="mb-5 text-5xl md:text-7xl font-bold tracking-tight">
+                <h1 className="mb-3 sm:mb-5 text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight">
                   {slides[currentIndex].title}
                 </h1>
                 
-                <p className="mb-8 text-lg md:text-xl font-light opacity-90">
+                <p className="mb-6 sm:mb-8 text-sm sm:text-base md:text-lg lg:text-xl font-light opacity-90">
                   {slides[currentIndex].subtitle}
                 </p>
 
                 <motion.button 
-                  className="btn btn-primary btn-lg border-none hover:scale-105 transition-transform rounded-full bg-white text-black font-semibold"
+                  className="btn btn-sm sm:btn-md lg:btn-lg border-none hover:scale-105 transition-transform rounded-full bg-white text-black font-semibold"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -94,7 +94,7 @@ const Hero = () => {
         </div>
 
         {/* INDICATOR DOTS */}
-        <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-20">
+        <div className="absolute bottom-4 sm:bottom-8 left-0 right-0 flex justify-center gap-2 sm:gap-3 z-20">
           {slides.map((_, index) => (
             <button
               key={index}

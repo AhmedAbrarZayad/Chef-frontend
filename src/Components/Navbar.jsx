@@ -33,7 +33,7 @@ const Navbar = () => {
     </>
     );
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-base-100 px-2 sm:px-4">
         <div className="navbar-start">
             <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -41,35 +41,36 @@ const Navbar = () => {
             </div>
             <ul
                 tabIndex="-1"
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow gap-3">
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[100] mt-3 w-52 p-2 shadow gap-3">
                 {NavLinks}
             </ul>
             </div>
-            <a className="btn btn-ghost text-xl roboto-bold">LocalChefBazaar</a>
+            <a className="btn btn-ghost text-sm sm:text-lg md:text-xl roboto-bold hidden sm:flex">LocalChefBazaar</a>
+            <a className="btn btn-ghost text-xs roboto-bold flex sm:hidden">LCB</a>
         </div>
         <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1 gap-10 text-black">
                 {NavLinks}
             </ul>
         </div>
-        <div className="navbar-end gap-3">
+        <div className="navbar-end gap-1 sm:gap-2 md:gap-3">
             {user ? (
                 <>
                     {/* User Profile Picture */}
-                    <div className="avatar" onClick={() => navigate('/dashboard')}>
-                        <div className="w-10 rounded-full ring ring-primary-500 ring-offset-2">
+                    <div className="avatar cursor-pointer" onClick={() => navigate('/dashboard')}>
+                        <div className="w-8 sm:w-10 rounded-full ring ring-primary-500 ring-offset-2">
                             <img src={user.photoURL || 'https://via.placeholder.com/40'} alt={user.displayName || 'User'} />
                         </div>
                     </div>
                     <button 
-                        className="btn rounded-full border-2 border-black hover:bg-primary-500 hover:text-white"
+                        className="btn btn-sm sm:btn-md rounded-full border-2 border-black hover:bg-primary-500 hover:text-white hidden md:flex"
                     >
                         <NavLink to="/dashboard">Dashboard</NavLink>
                     </button>
                     {/* Logout Button */}
                     <button 
                         onClick={handleLogout}
-                        className="btn rounded-full border-2 border-black hover:bg-primary-500 hover:text-white"
+                        className="btn btn-sm sm:btn-md rounded-full border-2 border-black hover:bg-primary-500 hover:text-white"
                     >
                         Logout
                     </button>
@@ -79,14 +80,14 @@ const Navbar = () => {
                     {/* Login Button */}
                     <Link 
                         to="/auth/login"
-                        className="btn rounded-full border-2 border-black hover:bg-primary-500 hover:text-white"
+                        className="btn btn-sm sm:btn-md rounded-full border-2 border-black hover:bg-primary-500 hover:text-white"
                     >
                         Login
                     </Link>
                     {/* Register Button */}
                     <Link 
                         to="/auth/register"
-                        className="btn rounded-full border-2 border-black hover:bg-primary-500 hover:text-white"
+                        className="btn btn-sm sm:btn-md rounded-full border-2 border-black hover:bg-primary-500 hover:text-white hidden sm:flex"
                     >
                         Register
                     </Link>

@@ -21,11 +21,13 @@ import OrderApproval from "../Pages/OrderApproval";
 import ManageUsers from "../Pages/ManageUsers";
 import ManageRequests from "../Pages/ManageRequests";
 import PlatformStatistics from "../Pages/PlatformStatistics";
+import ErrorPage from "../Components/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <ErrorPage />,
     children: [
         {
           index: true,
@@ -102,6 +104,7 @@ export const router = createBrowserRouter([
   {
     path: "/auth",
     element: <AuthRoot />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "login",

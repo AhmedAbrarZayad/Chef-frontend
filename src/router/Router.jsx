@@ -80,15 +80,15 @@ export const router = createBrowserRouter([
             },
             {
               path: "manage-users",
-              element: <ManageUsers />
+              element: <AdminRoute><ManageUsers /></AdminRoute>
             },
             {
               path: "manage-requests",
-              element: <ManageRequests />
+              element: <AdminRoute><ManageRequests /></AdminRoute>
             },
             {
               path: "platform-statistics",
-              element: <PlatformStatistics />
+              element: <AdminRoute><PlatformStatistics /></AdminRoute>
             }
           ]
         },

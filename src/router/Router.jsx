@@ -22,6 +22,7 @@ import ManageUsers from "../Pages/ManageUsers";
 import ManageRequests from "../Pages/ManageRequests";
 import PlatformStatistics from "../Pages/PlatformStatistics";
 import ErrorPage from "../Components/ErrorPage";
+import ChefRoute from "../Routes/ChefRoute";
 
 export const router = createBrowserRouter([
   {
@@ -67,15 +68,15 @@ export const router = createBrowserRouter([
             },
             {
               path: "create-meal",
-              element: <CreateMeals />
+              element: <ChefRoute><CreateMeals /></ChefRoute>
             },
             {
               path: "my-meals",
-              element: <MyMeals />
+              element: <ChefRoute><MyMeals /></ChefRoute>
             },
             {
               path: "order-approval",
-              element: <OrderApproval />
+              element: <ChefRoute><OrderApproval /></ChefRoute>
             },
             {
               path: "manage-users",
@@ -116,4 +117,8 @@ export const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: "*",
+    element: <ErrorPage />
+  }
 ]);

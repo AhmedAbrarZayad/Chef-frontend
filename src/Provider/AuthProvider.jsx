@@ -18,13 +18,15 @@ const AuthProvider = ({ children }) => {
     // Create account
     const createUser = (email, password) => {
         setLoading(true);
-        return createUserWithEmailAndPassword(auth, email, password);
+        return createUserWithEmailAndPassword(auth, email, password)
+            .finally(() => setLoading(false));
     };
 
     // Login
     const signIn = (email, password) => {
         setLoading(true);
-        return signInWithEmailAndPassword(auth, email, password);
+        return signInWithEmailAndPassword(auth, email, password)
+            .finally(() => setLoading(false));
     };
 
     // Update profile 
@@ -38,7 +40,8 @@ const AuthProvider = ({ children }) => {
     // Logout
     const logout = () => {
         setLoading(true);
-        return signOut(auth);
+        return signOut(auth)
+            .finally(() => setLoading(false));
     };
 
     // Auth observer — track login state

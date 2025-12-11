@@ -11,12 +11,12 @@ const DashboardRoot = () => {
     
     const NavLinks = [
         <NavLink to={'/dashboard'} onClick={() => setIsSidebarOpen(false)}>My Profile</NavLink>,
-        ...(((role === 'user') || (role === 'admin')) ? [
+        ...(((role === 'user')) ? [
             <NavLink to={'/dashboard/orders'} onClick={() => setIsSidebarOpen(false)}>My Orders</NavLink>,
             <NavLink to={'/dashboard/reviews'} onClick={() => setIsSidebarOpen(false)}>My Reviews</NavLink>,
             <NavLink to={'/dashboard/favourites'} onClick={() => setIsSidebarOpen(false)}>Favourite Meals</NavLink>
         ] : []),
-        ...(((role === 'chef') || (role === 'admin')) ? [
+        ...(((role === 'chef')) ? [
             <NavLink to={'/dashboard/create-meal'} onClick={() => setIsSidebarOpen(false)}>Create Meal</NavLink>,
             <NavLink to={'/dashboard/my-meals'} onClick={() => setIsSidebarOpen(false)}>My Meals</NavLink>,
             <NavLink to={'/dashboard/order-approval'} onClick={() => setIsSidebarOpen(false)}>Order Requests</NavLink>

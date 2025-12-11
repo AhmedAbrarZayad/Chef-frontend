@@ -3,13 +3,13 @@ import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
 import { motion } from 'framer-motion';
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const { signIn } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
-    const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const {
         register,
@@ -18,14 +18,18 @@ const Login = () => {
     } = useForm();
 
     const onSubmit = async (data) => {
-        setError('');
         setLoading(true);
 
         try {
             await signIn(data.email, data.password);
             navigate(from, { replace: true });
         } catch (err) {
-            setError(err.message || 'Failed to login. Please check your credentials.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Failed',
+                text: err.message || 'Failed to login. Please check your credentials.',
+                confirmButtonColor: '#000000',
+            });
         } finally {
             setLoading(false);
         }
@@ -48,13 +52,6 @@ const Login = () => {
                 {/* Form */}
                 <div className="p-8">
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                        {/* Error Message */}
-                        {error && (
-                            <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-                                <p className="text-sm text-red-700">{error}</p>
-                            </div>
-                        )}
-
                         {/* Email */}
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">

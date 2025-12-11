@@ -24,6 +24,7 @@ import PlatformStatistics from "../Pages/PlatformStatistics";
 import ErrorPage from "../Components/ErrorPage";
 import ChefRoute from "../Routes/ChefRoute";
 import AdminRoute from "../Routes/AdminRoute";
+import UserRoute from "../Routes/UserRoute";
 
 export const router = createBrowserRouter([
   {
@@ -57,15 +58,15 @@ export const router = createBrowserRouter([
             },
             {
               path: "orders",
-              element: <MyOrders />
+              element: <UserRoute><MyOrders /></UserRoute>
             },
             {
               path: "reviews",
-              element: <MyReviews />
+              element: <UserRoute><MyReviews /></UserRoute>
             },
             {
               path: "favourites",
-              element: <MyFavourites />
+              element: <UserRoute><MyFavourites /></UserRoute>
             },
             {
               path: "create-meal",

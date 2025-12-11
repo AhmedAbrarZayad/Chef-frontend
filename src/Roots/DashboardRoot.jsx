@@ -3,13 +3,20 @@ import { NavLink, Outlet } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
+import useRole from '../Hooks/useRole';
 
 const DashboardRoot = () => {
+    const {role, isLoading: isRoleLoading} = useRole();
     const NavLinks = [
         <NavLink to={'/dashboard'}>My Profile</NavLink>,
-        <NavLink to={'/dashboard/orders'}>My Orders</NavLink>,
-        <NavLink to={'/dashboard/reviews'}>My Reviews</NavLink>,
-        <NavLink to={'/dashboard/favourites'}>Favourite Meals</NavLink>
+        ...(((role === 'user') || (role === 'admin')) ? [
+            <NavLink to={'/dashboard/orders'}>My Orders</NavLink>,
+            <NavLink to={'/dashboard/reviews'}>My Reviews</NavLink>,
+            <NavLink to={'/dashboard/favourites'}>Favourite Meals</NavLink>
+        ] : []),
+        ...(((role === 'chef') || (role === 'admin')) ? [
+            <NavLink to={'/dashboard/create-meal'}>Create Meal</NavLink>
+        ] : [])
     ];
     return (
         <div className='flex flex-col md:flex-row min-h-screen gap-12 p-12'>

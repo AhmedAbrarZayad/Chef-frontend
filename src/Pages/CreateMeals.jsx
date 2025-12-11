@@ -112,7 +112,7 @@ const CreateMeals = () => {
                 ingredients: ingredientsArray,
                 estimatedDeliveryTime: data.estimatedDeliveryTime,
                 chefExperience: data.chefExperience,
-                chefId: userData?._id,
+                chefId: userData?.[0]?._id,
                 userEmail: user?.email,
                 createdAt: new Date().toISOString()
             };

@@ -15,8 +15,13 @@ const DashboardRoot = () => {
             <NavLink to={'/dashboard/favourites'}>Favourite Meals</NavLink>
         ] : []),
         ...(((role === 'chef') || (role === 'admin')) ? [
-            <NavLink to={'/dashboard/create-meal'}>Create Meal</NavLink>
-        ] : [])
+            <NavLink to={'/dashboard/create-meal'}>Create Meal</NavLink>,
+            <NavLink to={'/dashboard/my-meals'}>My Meals</NavLink>,
+            <NavLink to={'/dashboard/order-approval'}>Order Requests</NavLink>
+        ] : []),
+        ...DashboardRoot((role === 'admin' ? [
+            <NavLink>Manage Users</NavLink>
+        ] : []))
     ];
     return (
         <div className='flex flex-col md:flex-row min-h-screen gap-12 p-12'>

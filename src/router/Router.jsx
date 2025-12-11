@@ -16,6 +16,10 @@ import MyFavourites from "../Pages/MyFavourites";
 import PaymentSuccessful from "../Components/PaymentSuccessful";
 import PaymentFailed from "../Components/PaymentFailed";
 import CreateMeals from "../Pages/CreateMeals";
+import MyMeals from "../Pages/MyMeals";
+import OrderApproval from "../Pages/OrderApproval";
+import ManageUsers from "../Pages/ManageUsers";
+import ManageRequests from "../Pages/ManageRequests";
 
 export const router = createBrowserRouter([
   {
@@ -61,6 +65,22 @@ export const router = createBrowserRouter([
             {
               path: "create-meal",
               element: <CreateMeals />
+            },
+            {
+              path: "my-meals",
+              element: <MyMeals />
+            },
+            {
+              path: "order-approval",
+              element: <OrderApproval />
+            },
+            {
+              path: "manage-users",
+              element: <ManageUsers />
+            },
+            {
+              path: "manage-requests",
+              element: <ManageRequests />
             }
           ]
         },

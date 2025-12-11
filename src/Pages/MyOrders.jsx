@@ -25,6 +25,10 @@ const MyOrders = () => {
             senderEmail: user?.email,
             cost: order.price * order.quantity,
         }
+        if(order.orderStatus === 'pending'){
+            alert('Your order is still pending. Please wait until it is approved before making a payment.');   
+            return;
+        }
         const res = await axiosSecure.post('/create-checkout-session', paymentInfo);
         console.log('Checkout Session:', res.data);
         if (res.data && res.data.url) {

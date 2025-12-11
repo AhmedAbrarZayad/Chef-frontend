@@ -21,7 +21,8 @@ const DashboardRoot = () => {
         ] : []),
         ...((role === 'admin' ? [
             <NavLink to={'/dashboard/manage-users'}>Manage Users</NavLink>,
-            <NavLink to={'/dashboard/manage-requests'}>Manage Requests</NavLink>
+            <NavLink to={'/dashboard/manage-requests'}>Manage Requests</NavLink>,
+            <NavLink to={'/dashboard/platform-statistics'}>Platform Statistics</NavLink>
         ] : []))
     ];
     return (

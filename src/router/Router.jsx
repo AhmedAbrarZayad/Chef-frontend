@@ -20,6 +20,7 @@ import MyMeals from "../Pages/MyMeals";
 import OrderApproval from "../Pages/OrderApproval";
 import ManageUsers from "../Pages/ManageUsers";
 import ManageRequests from "../Pages/ManageRequests";
+import PlatformStatistics from "../Pages/PlatformStatistics";
 
 export const router = createBrowserRouter([
   {
@@ -81,6 +82,10 @@ export const router = createBrowserRouter([
             {
               path: "manage-requests",
               element: <ManageRequests />
+            },
+            {
+              path: "platform-statistics",
+              element: <PlatformStatistics />
             }
           ]
         },

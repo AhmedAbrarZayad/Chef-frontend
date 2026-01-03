@@ -8,6 +8,13 @@ A modern, full-stack restaurant management platform built with the MERN stack, f
 
 **Backend:** [https://chef-backend-seven.vercel.app](https://chef-backend-seven.vercel.app)
 
+## 📸 Screenshots
+
+### Homepage Hero Section
+![LocalChefBazaar Homepage](./src/assets/screenshot.png)
+
+*The Taste of Home - Classic recipes, fresh ingredients, made with love—just like grandma's kitchen.*
+
 ## ✨ Features
 
 ### User Features

@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
+import { getTheme, toggleTheme } from '../theme';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const [theme, setTheme] = useState(getTheme());
+
+    useEffect(() => {
+        const handleThemeChange = (e) => {
+            setTheme(e.detail);
+        };
+        window.addEventListener('themeChange', handleThemeChange);
+        return () => window.removeEventListener('themeChange', handleThemeChange);
+    }, []);
+
+    const handleThemeToggle = () => {
+        const newTheme = toggleTheme();
+        setTheme(newTheme);
+    };
+
     const handleLogout = () => {
         logout()
             .then(() => {})
@@ -16,7 +32,7 @@ const Navbar = () => {
         <NavLink
         to="/"
         className={({ isActive }) =>
-            `roboto-normal ${isActive ? 'border-b-2 border-black' : ''}`
+            `roboto-normal ${isActive ? `border-b-2 ${theme === 'dark' ? 'border-white' : 'border-black'}` : ''}`
         }
         >
         Home
@@ -25,10 +41,28 @@ const Navbar = () => {
         <NavLink
         to="/meals"
         className={({ isActive }) =>
-            `roboto-normal ${isActive ? 'border-b-2 border-black' : ''}`
+            `roboto-normal ${isActive ? `border-b-2 ${theme === 'dark' ? 'border-white' : 'border-black'}` : ''}`
         }
         >
         Meals
+        </NavLink>
+
+        <NavLink
+        to="/about"
+        className={({ isActive }) =>
+            `roboto-normal ${isActive ? `border-b-2 ${theme === 'dark' ? 'border-white' : 'border-black'}` : ''}`
+        }
+        >
+        About
+        </NavLink>
+
+        <NavLink
+        to="/contact"
+        className={({ isActive }) =>
+            `roboto-normal ${isActive ? `border-b-2 ${theme === 'dark' ? 'border-white' : 'border-black'}` : ''}`
+        }
+        >
+        Contact
         </NavLink>
     </>
     );
@@ -49,11 +83,20 @@ const Navbar = () => {
             <a className="btn btn-ghost text-xs roboto-bold flex sm:hidden">LCB</a>
         </div>
         <div className="navbar-center hidden lg:flex">
-            <ul className="menu menu-horizontal px-1 gap-10 text-black">
+            <ul className="menu menu-horizontal px-1 gap-10 text-base-content">
                 {NavLinks}
             </ul>
         </div>
         <div className="navbar-end gap-1 sm:gap-2 md:gap-3">
+            {/* Theme Toggle Button */}
+            <button 
+                onClick={handleThemeToggle}
+                className={`btn btn-sm sm:btn-md rounded-full border-2 ${theme === 'dark' ? 'border-white' : 'border-black'}`}
+                aria-label="Toggle theme"
+            >
+                {theme === 'dark' ? '☀️' : '🌙'}
+            </button>
+
             {user ? (
                 <>
                     {/* User Profile Picture */}
@@ -63,14 +106,14 @@ const Navbar = () => {
                         </div>
                     </div>
                     <button 
-                        className="btn btn-sm sm:btn-md rounded-full border-2 border-black hover:bg-primary-500 hover:text-white hidden md:flex"
+                        className={`btn btn-sm sm:btn-md rounded-full border-2 ${theme === 'dark' ? 'border-white hover:bg-white hover:text-black' : 'border-black hover:bg-black hover:text-white'} hidden md:flex`}
                     >
                         <NavLink to="/dashboard">Dashboard</NavLink>
                     </button>
                     {/* Logout Button */}
                     <button 
                         onClick={handleLogout}
-                        className="btn btn-sm sm:btn-md rounded-full border-2 border-black hover:bg-primary-500 hover:text-white"
+                        className={`btn btn-sm sm:btn-md rounded-full border-2 ${theme === 'dark' ? 'border-white hover:bg-white hover:text-black' : 'border-black hover:bg-black hover:text-white'}`}
                     >
                         Logout
                     </button>
@@ -80,14 +123,14 @@ const Navbar = () => {
                     {/* Login Button */}
                     <Link 
                         to="/auth/login"
-                        className="btn btn-sm sm:btn-md rounded-full border-2 border-black hover:bg-primary-500 hover:text-white"
+                        className={`btn btn-sm sm:btn-md rounded-full border-2 ${theme === 'dark' ? 'border-white hover:bg-white hover:text-black' : 'border-black hover:bg-black hover:text-white'}`}
                     >
                         Login
                     </Link>
                     {/* Register Button */}
                     <Link 
                         to="/auth/register"
-                        className="btn btn-sm sm:btn-md rounded-full border-2 border-black hover:bg-primary-500 hover:text-white hidden sm:flex"
+                        className={`btn btn-sm sm:btn-md rounded-full border-2 ${theme === 'dark' ? 'border-white hover:bg-white hover:text-black' : 'border-black hover:bg-black hover:text-white'} hidden sm:flex`}
                     >
                         Register
                     </Link>

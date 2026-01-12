@@ -79,7 +79,7 @@ const ProfilePage = () => {
     if (!userData) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <p className="text-2xl text-gray-600">User data not found</p>
+                <p className="text-2xl text-base-content opacity-70">User data not found</p>
             </div>
         );
     }
@@ -88,8 +88,8 @@ const ProfilePage = () => {
     const isAdmin = userData.role === 'admin';
 
     return (
-        <div className="min-h-screen bg-white py-12">
-            <div className="container mx-auto px-4 max-w-7xl">
+        <div className="w-full">
+            <div className="container mx-auto px-4 max-w-7xl py-12">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -97,17 +97,17 @@ const ProfilePage = () => {
                 >
                     {/* Header */}
                     <div className="mb-8">
-                        <h1 className="text-5xl font-extrabold text-black mb-2">Profile</h1>
-                        <p className="text-gray-400">View all your profile details here.</p>
-                        <div className="w-full h-px bg-gray-700 mt-6"></div>
+                        <h1 className="text-5xl font-extrabold text-base-content mb-2">Profile</h1>
+                        <p className="text-base-content opacity-60">View all your profile details here.</p>
+                        <div className="w-full h-px bg-base-300 mt-6"></div>
                     </div>
 
                     {/* Two Column Layout */}
                     <div className="grid lg:grid-cols-2 gap-6">
                         {/* Left Column - Profile Card */}
-                        <div className="bg-white rounded-3xl p-8 border-2 border-black">
+                        <div className="bg-base-100 rounded-3xl p-8 border-2 !border-black">
                             <div className="text-center">
-                                <h2 className="text-3xl font-bold text-black mb-1">{userData.name}</h2>
+                                <h2 className="text-3xl font-bold text-base-content mb-1">{userData.name}</h2>
                                 <p className="text-primary-500 font-semibold mb-8">{userData.role.charAt(0).toUpperCase() + userData.role.slice(1)}</p>
                                 
                                 {/* Profile Image with Gradient Border */}
@@ -128,9 +128,9 @@ const ProfilePage = () => {
                         </div>
 
                         {/* Right Column - Bio & Details */}
-                        <div className="bg-white rounded-3xl p-8 border-2 border-black relative">
+                        <div className="bg-base-100 rounded-3xl p-8 border-2 !border-black relative">
                             <div className="flex justify-between items-start mb-6">
-                                <h2 className="text-2xl font-bold text-black">Bio & other details</h2>
+                                <h2 className="text-2xl font-bold text-base-content">Bio & other details</h2>
                                 {/* Status Badge */}
                                 <div className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${
                                     userData.fraud === 'yes' 
@@ -149,40 +149,40 @@ const ProfilePage = () => {
                                 <div className="grid md:grid-cols-2 gap-6">
                                     {/* My Role */}
                                     <div>
-                                        <label className="block text-gray-400 text-sm mb-2">My Role</label>
-                                        <p className="text-black font-semibold text-lg">{userData.role.charAt(0).toUpperCase() + userData.role.slice(1)}</p>
+                                        <label className="block text-base-content opacity-60 text-sm mb-2">My Role</label>
+                                        <p className="text-base-content font-semibold text-lg">{userData.role.charAt(0).toUpperCase() + userData.role.slice(1)}</p>
                                     </div>
 
                                     {/* Status */}
                                     <div>
-                                        <label className="block text-gray-400 text-sm mb-2">Account Status</label>
-                                        <p className="text-black font-semibold text-lg">{userData.fraud === 'yes' ? 'Fraud' : 'Active'}</p>
+                                        <label className="block text-base-content opacity-60 text-sm mb-2">Account Status</label>
+                                        <p className="text-base-content font-semibold text-lg">{userData.fraud === 'yes' ? 'Fraud' : 'Active'}</p>
                                     </div>
 
                                     {/* Email */}
                                     <div>
-                                        <label className="block text-gray-400 text-sm mb-2">Email Address</label>
-                                        <p className="text-black font-semibold text-lg break-all">{userData.email}</p>
+                                        <label className="block text-base-content opacity-60 text-sm mb-2">Email Address</label>
+                                        <p className="text-base-content font-semibold text-lg break-all">{userData.email}</p>
                                     </div>
 
                                     {/* Address */}
                                     <div>
-                                        <label className="block text-gray-400 text-sm mb-2">My City or Region</label>
-                                        <p className="text-black font-semibold text-lg">{userData.address}</p>
+                                        <label className="block text-base-content opacity-60 text-sm mb-2">My City or Region</label>
+                                        <p className="text-base-content font-semibold text-lg break-words">{userData.address}</p>
                                     </div>
 
                                     {/* Chef ID - Only show if user is a chef */}
                                     {isChef && userData.chefId && (
                                         <div>
-                                            <label className="block text-gray-400 text-sm mb-2">Chef ID</label>
-                                            <p className="text-black font-semibold text-lg">{userData.chefId}</p>
+                                            <label className="block text-base-content opacity-60 text-sm mb-2">Chef ID</label>
+                                            <p className="text-base-content font-semibold text-lg">{userData.chefId}</p>
                                         </div>
                                     )}
                                 </div>
 
                                 {/* Badges Section */}
                                 <div>
-                                    <label className="block text-gray-400 text-sm mb-3">Badges</label>
+                                    <label className="block text-base-content opacity-60 text-sm mb-3">Badges</label>
                                     <div className="flex gap-2 flex-wrap">
                                         <span className={`px-3 py-1 rounded-full text-sm font-bold inline-flex items-center gap-2 ${
                                             userData.role === 'admin' 
@@ -203,8 +203,8 @@ const ProfilePage = () => {
 
                                 {/* Action Buttons */}
                                 {!isAdmin && (
-                                    <div className="pt-6 border-t border-gray-700">
-                                        <label className="block text-gray-400 text-sm mb-4">Upgrade Account</label>
+                                    <div className="pt-6 border-t border-base-300">
+                                        <label className="block text-base-content opacity-60 text-sm mb-4">Upgrade Account</label>
                                         <div className="grid md:grid-cols-2 gap-4">
                                             {/* Be a Chef Button */}
                                             {!isChef && (
@@ -213,7 +213,7 @@ const ProfilePage = () => {
                                                     whileTap={{ scale: 0.98 }}
                                                     onClick={() => handleRoleRequest('chef')}
                                                     disabled={requestLoading}
-                                                    className="bg-white hover:bg-black hover:text-white text-black border-2 font-bold py-3 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                                    className="bg-base-100 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-base-content border-2 !border-black font-bold py-3 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                                                 >
                                                     Be a Chef
                                                 </motion.button>
@@ -225,7 +225,7 @@ const ProfilePage = () => {
                                                 whileTap={{ scale: 0.98 }}
                                                 onClick={() => handleRoleRequest('admin')}
                                                 disabled={requestLoading}
-                                                className="bg-white hover:bg-black hover:text-white text-black border-2 font-bold py-3 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                                className="bg-base-100 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-base-content border-2 !border-black font-bold py-3 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                                             >
                                                 Be an Admin
                                             </motion.button>
@@ -235,11 +235,11 @@ const ProfilePage = () => {
 
                                 {/* Admin Badge */}
                                 {isAdmin && (
-                                    <div className="pt-6 border-t border-gray-700">
+                                    <div className="pt-6 border-t border-base-300">
                                         <div className="bg-purple-500/10 border-2 border-purple-500/30 p-6 rounded-xl text-center">
                                             <div className="text-4xl mb-2">👑</div>
                                             <h3 className="text-xl font-bold text-purple-400 mb-1">Administrator Account</h3>
-                                            <p className="text-gray-400 text-sm">You have full administrative privileges</p>
+                                            <p className="text-base-content opacity-60 text-sm">You have full administrative privileges</p>
                                         </div>
                                     </div>
                                 )}

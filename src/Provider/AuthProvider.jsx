@@ -5,9 +5,10 @@ import {
     signInWithEmailAndPassword,
     signOut,
     updateProfile,
+    signInWithPopup,
 } from "firebase/auth";
 import { AuthContext } from "../Context/AuthContext";
-import { auth } from "../auth/auth";
+import { auth, googleProvider } from "../auth/auth";
 import LoadingScreen from "../Components/LoadingScreen";
 
 
@@ -26,6 +27,13 @@ const AuthProvider = ({ children }) => {
     const signIn = (email, password) => {
         setLoading(true);
         return signInWithEmailAndPassword(auth, email, password)
+            .finally(() => setLoading(false));
+    };
+
+    // Google Sign In
+    const signInWithGoogle = () => {
+        setLoading(true);
+        return signInWithPopup(auth, googleProvider)
             .finally(() => setLoading(false));
     };
 
@@ -59,6 +67,7 @@ const AuthProvider = ({ children }) => {
         loading,
         createUser,
         signIn,
+        signInWithGoogle,
         logout,
         updateUserProfile,
     };

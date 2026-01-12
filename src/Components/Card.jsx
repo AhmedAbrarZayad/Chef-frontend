@@ -23,7 +23,7 @@ const Card = ({ meal }) => {
 
     return (
         <motion.div 
-            className="w-full max-w-sm mx-auto bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transition-shadow duration-300 h-full border-2 border-black"
+            className="w-full max-w-sm mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden flex flex-col transition-shadow duration-300 h-full border-2 border-black dark:border-white"
             // Using Framer Motion for a subtle lift on hover
             whileHover={{ 
                 scale: 1.05, 
@@ -41,12 +41,12 @@ const Card = ({ meal }) => {
                 />
                 
                 {/* Price Tag (Top Left) */}
-                <div className="absolute top-3 left-3 bg-white text-black font-bold text-lg px-3 py-1 rounded-full shadow-md">
+                <div className="absolute top-3 left-3 bg-base-100 text-base-content font-bold text-lg px-3 py-1 rounded-full shadow-md">
                     ${price.toFixed(2)}
                 </div>
 
                 {/* Rating Badge (Top Right) */}
-                <div className="absolute top-3 right-3 bg-white text-black font-semibold text-sm px-3 py-1 rounded-full flex items-center shadow-md">
+                <div className="absolute top-3 right-3 bg-base-100 text-base-content font-semibold text-sm px-3 py-1 rounded-full flex items-center shadow-md">
                     <span className="mr-1 text-base">⭐</span> 
                     {rating.toFixed(1)}
                 </div>

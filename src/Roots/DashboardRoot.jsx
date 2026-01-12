@@ -9,7 +9,7 @@ const DashboardRoot = () => {
     const {role, isLoading: isRoleLoading} = useRole();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     
-    const linkClass = 'bg-white hover:bg-black hover:text-white text-black border-2 border-black font-bold py-3 px-6 rounded-xl transition-all duration-200 block text-center';
+    const linkClass = 'bg-base-100 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-base-content border-2 border-black font-bold py-3 px-6 rounded-xl transition-all duration-200 block text-center';
     
     const NavLinks = [
         <NavLink to={'/dashboard'} onClick={() => setIsSidebarOpen(false)} className={linkClass}>My Profile</NavLink>,
@@ -31,11 +31,11 @@ const DashboardRoot = () => {
     ];
     
     return (
-        <div className='flex flex-col md:flex-row min-h-screen gap-4 md:gap-12 p-4 pt-20 md:pt-12 md:p-12'>
+        <div className='flex flex-col md:flex-row min-h-screen bg-base-200 text-base-content gap-4 md:gap-12 p-4 pt-20 md:pt-12 md:p-12'>
             {/* Mobile Menu Button - Only show when sidebar is closed */}
             {!isSidebarOpen && (
                 <button 
-                    className="md:hidden fixed top-20 left-4 z-50 bg-white border-2 border-black p-3 rounded-xl shadow-lg"
+                    className="md:hidden fixed top-20 left-4 z-50 bg-base-100 border-2 border-black p-3 rounded-xl shadow-lg"
                     onClick={() => setIsSidebarOpen(true)}
                 >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,7 +54,7 @@ const DashboardRoot = () => {
 
             {/* Sidebar */}
             <div className={`
-                options border-2 border-black roboto-normal p-6 flex flex-col gap-6 bg-white rounded-xl
+                options border-2 border-black roboto-normal p-6 flex flex-col gap-6 bg-base-100 rounded-xl
                 fixed md:static top-0 left-0 h-full md:h-auto w-64 md:w-[20%]
                 transform transition-transform duration-300 ease-in-out z-40
                 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}

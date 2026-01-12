@@ -9,16 +9,17 @@ const Meals = () => {
   const [sortBy, setSortBy] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [order, setOrder] = useState(''); // 'asc' or 'desc'
+  const [priceRange, setPriceRange] = useState(''); // price range filter
   const axiosSecure = useAxiosSecure();
   // Local state for meals and totalPages
   const [totalPages, setTotalPages] = useState(1);
 
   // Fetch meals from backend
   const { data, isLoading } = useQuery({
-    queryKey: ['meals', page, sortBy, searchTerm, order],
+    queryKey: ['meals', page, sortBy, searchTerm, order, priceRange],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/all-meals?limit=10&page=${page}&sortBy=${sortBy}&search=${searchTerm}&order=${order}`
+        `/all-meals?limit=10&page=${page}&sortBy=${sortBy}&search=${searchTerm}&order=${order}&priceRange=${priceRange}`
       );
       console.log(order);
       setTotalPages(res.data.totalPages);
@@ -44,14 +45,30 @@ const Meals = () => {
     setPage(1);
   }
 
+  const handlePriceRangeChange = (e) => {
+    setPriceRange(e.target.value);
+    setPage(1);
+  }
+
 
   return (
     <div>
-      <div className="flex justify-center items-center mt-10 w-[80%] mx-auto">
+      <div className="flex justify-center items-center mt-10 w-[80%] mx-auto gap-4">
         <SearchBar onChange={handleSearchChange} />
-        <div className='flex gap-4 w-[20%] justify-end'>
+        <div className='flex gap-4 justify-end'>
             <select
-            className="select select-bordered border-2 border-black bg-white rounded-4xl"
+            className="select select-bordered border-2 border-black dark:border-white bg-base-100 text-base-content rounded-4xl"
+            onChange={handlePriceRangeChange}
+            value={priceRange}
+            >
+            <option value="">All Prices</option>
+            <option value="0-10">$0 - $10</option>
+            <option value="10-20">$10 - $20</option>
+            <option value="20-30">$20 - $30</option>
+            <option value="30+">$30+</option>
+            </select>
+            <select
+            className="select select-bordered border-2 border-black dark:border-white bg-base-100 text-base-content rounded-4xl"
             onChange={handleSortChange}
             value={sortBy}
             >
@@ -61,11 +78,11 @@ const Meals = () => {
             <option value="date">Date</option>
             </select>
             <select
-            className="select select-bordered border-2 border-black bg-white rounded-4xl"
+            className="select select-bordered border-2 border-black dark:border-white bg-base-100 text-base-content rounded-4xl"
             onChange={handleOrderChange}
             value={order}
             >
-            <option value="" selected>Order</option>
+            <option value="">Order</option>
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
             </select>

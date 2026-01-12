@@ -25,6 +25,8 @@ import ErrorPage from "../Components/ErrorPage";
 import ChefRoute from "../Routes/ChefRoute";
 import AdminRoute from "../Routes/AdminRoute";
 import UserRoute from "../Routes/UserRoute";
+import About from "../Pages/About";
+import Contact from "../Pages/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -41,8 +43,16 @@ export const router = createBrowserRouter([
           element: <Meals />
         },
         {
+          path: "about",
+          element: <About />
+        },
+        {
+          path: "contact",
+          element: <Contact />
+        },
+        {
           path: "meals/:id",
-          element: <PrivateRoute><MealsDetails /></PrivateRoute>
+          element: <MealsDetails />
         },
         {
           path: "order/:id",

@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
+import RoutePrefetcher from '../Components/RoutePrefetcher';
 
 const Root = () => {
     return (
@@ -9,6 +10,7 @@ const Root = () => {
             <div className='min-h-screen flex flex-col'>
                 <Navbar />
                 <Outlet />
+                <RoutePrefetcher />
             </div>
             <Footer />
         </div>

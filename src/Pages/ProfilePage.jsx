@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../Hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import Swal from 'sweetalert2';
 
 const ProfilePage = () => {
@@ -13,8 +13,9 @@ const ProfilePage = () => {
     const { data: userData, isLoading, refetch } = useQuery({
         queryKey: ['userProfile', user?.email],
         queryFn: async () => {
+            if (!user?.email) return null;
             const res = await axiosSecure.get(`/users?email=${user?.email}`);
-            return res.data[0]; // Get first user object from array
+            return res.data[0] || null; // Get first user object from array
         },
         enabled: !!user?.email
     });
@@ -77,6 +78,7 @@ const ProfilePage = () => {
     }
 
     if (!userData) {
+        console.log('User data not found for email:', user?.email);
         return (
             <div className="flex justify-center items-center min-h-screen">
                 <p className="text-2xl text-base-content opacity-70">User data not found</p>

@@ -1,32 +1,38 @@
 import { createBrowserRouter } from "react-router";
+import { lazy } from "react";
+import LazyWrapper from "../Components/LazyWrapper";
+
+// Critical routes - load immediately
 import Root from "../Roots/Root";
 import Home from "../Pages/Home";
-import Meals from "../Pages/Meals";
-import MealsDetails from "../Pages/MealsDetails";
-import AuthRoot from "../Roots/AuthRoot";
-import Login from "../Components/Login";
-import Register from "../Components/Register";
-import PrivateRoute from "../Routes/PrivateRoute";
-import OrderPage from "../Pages/OrderPage";
-import ProfilePage from "../Pages/ProfilePage";
-import DashboardRoot from "../Roots/DashboardRoot";
-import MyOrders from "../Pages/MyOrders";
-import MyReviews from "../Pages/MyReviews";
-import MyFavourites from "../Pages/MyFavourites";
-import PaymentSuccessful from "../Components/PaymentSuccessful";
-import PaymentFailed from "../Components/PaymentFailed";
-import CreateMeals from "../Pages/CreateMeals";
-import MyMeals from "../Pages/MyMeals";
-import OrderApproval from "../Pages/OrderApproval";
-import ManageUsers from "../Pages/ManageUsers";
-import ManageRequests from "../Pages/ManageRequests";
-import PlatformStatistics from "../Pages/PlatformStatistics";
 import ErrorPage from "../Components/ErrorPage";
-import ChefRoute from "../Routes/ChefRoute";
-import AdminRoute from "../Routes/AdminRoute";
-import UserRoute from "../Routes/UserRoute";
-import About from "../Pages/About";
-import Contact from "../Pages/Contact";
+
+// Lazy load all other routes
+const Meals = lazy(() => import("../Pages/Meals"));
+const MealsDetails = lazy(() => import("../Pages/MealsDetails"));
+const AuthRoot = lazy(() => import("../Roots/AuthRoot"));
+const Login = lazy(() => import("../Components/Login"));
+const Register = lazy(() => import("../Components/Register"));
+const PrivateRoute = lazy(() => import("../Routes/PrivateRoute"));
+const OrderPage = lazy(() => import("../Pages/OrderPage"));
+const ProfilePage = lazy(() => import("../Pages/ProfilePage"));
+const DashboardRoot = lazy(() => import("../Roots/DashboardRoot"));
+const MyOrders = lazy(() => import("../Pages/MyOrders"));
+const MyReviews = lazy(() => import("../Pages/MyReviews"));
+const MyFavourites = lazy(() => import("../Pages/MyFavourites"));
+const PaymentSuccessful = lazy(() => import("../Components/PaymentSuccessful"));
+const PaymentFailed = lazy(() => import("../Components/PaymentFailed"));
+const CreateMeals = lazy(() => import("../Pages/CreateMeals"));
+const MyMeals = lazy(() => import("../Pages/MyMeals"));
+const OrderApproval = lazy(() => import("../Pages/OrderApproval"));
+const ManageUsers = lazy(() => import("../Pages/ManageUsers"));
+const ManageRequests = lazy(() => import("../Pages/ManageRequests"));
+const PlatformStatistics = lazy(() => import("../Pages/PlatformStatistics"));
+const ChefRoute = lazy(() => import("../Routes/ChefRoute"));
+const AdminRoute = lazy(() => import("../Routes/AdminRoute"));
+const UserRoute = lazy(() => import("../Routes/UserRoute"));
+const About = lazy(() => import("../Pages/About"));
+const Contact = lazy(() => import("../Pages/Contact"));
 
 export const router = createBrowserRouter([
   {
@@ -40,92 +46,92 @@ export const router = createBrowserRouter([
         },
         {
           path: "meals",
-          element: <Meals />
+          element: <LazyWrapper><Meals /></LazyWrapper>
         },
         {
           path: "about",
-          element: <About />
+          element: <LazyWrapper><About /></LazyWrapper>
         },
         {
           path: "contact",
-          element: <Contact />
+          element: <LazyWrapper><Contact /></LazyWrapper>
         },
         {
           path: "meals/:id",
-          element: <MealsDetails />
+          element: <LazyWrapper><MealsDetails /></LazyWrapper>
         },
         {
           path: "order/:id",
-          element: <PrivateRoute><OrderPage /></PrivateRoute>
+          element: <LazyWrapper><PrivateRoute><OrderPage /></PrivateRoute></LazyWrapper>
         },
         {
           path: "dashboard",
-          element: <PrivateRoute><DashboardRoot /></PrivateRoute>,
+          element: <LazyWrapper><PrivateRoute><DashboardRoot /></PrivateRoute></LazyWrapper>,
           children: [
             {
               index: true,
-              element: <ProfilePage />
+              element: <LazyWrapper><ProfilePage /></LazyWrapper>
             },
             {
               path: "orders",
-              element: <UserRoute><MyOrders /></UserRoute>
+              element: <LazyWrapper><UserRoute><MyOrders /></UserRoute></LazyWrapper>
             },
             {
               path: "reviews",
-              element: <UserRoute><MyReviews /></UserRoute>
+              element: <LazyWrapper><UserRoute><MyReviews /></UserRoute></LazyWrapper>
             },
             {
               path: "favourites",
-              element: <UserRoute><MyFavourites /></UserRoute>
+              element: <LazyWrapper><UserRoute><MyFavourites /></UserRoute></LazyWrapper>
             },
             {
               path: "create-meal",
-              element: <ChefRoute><CreateMeals /></ChefRoute>
+              element: <LazyWrapper><ChefRoute><CreateMeals /></ChefRoute></LazyWrapper>
             },
             {
               path: "my-meals",
-              element: <ChefRoute><MyMeals /></ChefRoute>
+              element: <LazyWrapper><ChefRoute><MyMeals /></ChefRoute></LazyWrapper>
             },
             {
               path: "order-approval",
-              element: <ChefRoute><OrderApproval /></ChefRoute>
+              element: <LazyWrapper><ChefRoute><OrderApproval /></ChefRoute></LazyWrapper>
             },
             {
               path: "manage-users",
-              element: <AdminRoute><ManageUsers /></AdminRoute>
+              element: <LazyWrapper><AdminRoute><ManageUsers /></AdminRoute></LazyWrapper>
             },
             {
               path: "manage-requests",
-              element: <AdminRoute><ManageRequests /></AdminRoute>
+              element: <LazyWrapper><AdminRoute><ManageRequests /></AdminRoute></LazyWrapper>
             },
             {
               path: "platform-statistics",
-              element: <AdminRoute><PlatformStatistics /></AdminRoute>
+              element: <LazyWrapper><AdminRoute><PlatformStatistics /></AdminRoute></LazyWrapper>
             }
           ]
         },
         {
           path: "payment-success",
-          element: <PrivateRoute><PaymentSuccessful /></PrivateRoute>
+          element: <LazyWrapper><PrivateRoute><PaymentSuccessful /></PrivateRoute></LazyWrapper>
         },
         {
           path: "payment-failed",  
-          element: <PrivateRoute><PaymentFailed /></PrivateRoute>
+          element: <LazyWrapper><PrivateRoute><PaymentFailed /></PrivateRoute></LazyWrapper>
         }
     ],
   },
   {
     path: "/auth",
-    element: <AuthRoot />,
+    element: <LazyWrapper><AuthRoot /></LazyWrapper>,
     errorElement: <ErrorPage />,
     children: [
       {
         path: "login",
-        element: <Login />
+        element: <LazyWrapper><Login /></LazyWrapper>
       },
       {
         path: "register",
-        element: <Register />
+        element: <LazyWrapper><Register /></LazyWrapper>
       }
     ]
   },

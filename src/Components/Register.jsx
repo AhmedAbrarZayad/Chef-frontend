@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
 
 const Register = () => {

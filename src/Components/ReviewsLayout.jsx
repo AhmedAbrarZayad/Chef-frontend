@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import useAxiosSecure from '../Hooks/useAxiosSecure'; // Assuming this hook works
 import { useQuery } from '@tanstack/react-query';
 import ReviewCard from './ReviewCard';

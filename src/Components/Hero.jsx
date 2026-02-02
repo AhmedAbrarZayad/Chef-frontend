@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from 'motion/react';
 
 // Example Data - Replace strings with your imported image variables
 const slides = [
   {
     id: 1,
     // Image of a delicious, warm dish (like lasagna or roasted chicken) on a rustic table.
-    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=2070&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=60&w=600&auto=format&fit=crop", 
+    imageLarge: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1200&auto=format&fit=crop",
     title: "The Taste of Home",
     subtitle: "Classic recipes, fresh ingredients, made with love—just like grandma's kitchen.",
     button: "See Our Menu"
@@ -14,7 +15,8 @@ const slides = [
   {
     id: 2,
     // Image focusing on colorful, fresh ingredients (like vegetables being chopped or spices).
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=60&w=600&auto=format&fit=crop",
+    imageLarge: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop",
     title: "Freshness Guaranteed",
     subtitle: "Sourcing local, seasonal produce to bring vibrant flavors to your table.",
     button: "Our Ingredients Story"
@@ -22,7 +24,8 @@ const slides = [
   {
     id: 3,
     // Image of people gathered around a table laughing or sharing a meal.
-    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=60&w=600&auto=format&fit=crop",
+    imageLarge: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1200&auto=format&fit=crop",
     title: "Dinner Made Simple",
     subtitle: "Skip the prep and cleanup. Enjoy a delicious, ready-made meal tonight.",
     button: "Order Now"
@@ -45,51 +48,34 @@ const Hero = () => {
     <div className='container mx-auto px-2 sm:px-4 pb-4'>
       <div className="relative h-[400px] sm:h-[500px] lg:h-[600px] w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl group">
         
-        <AnimatePresence mode='wait'>
-          <motion.div
-            key={currentIndex} // Key change triggers the animation
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${slides[currentIndex].image})` }}
-            
-            // Animation: Start slightly zoomed in (1.2) and fade in, then scale down to 1
-            initial={{ opacity: 0, scale: 1.2 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }} 
-            transition={{ duration: 1.5, ease: "easeOut" }} // Slow and smooth
-          >
-            {/* Dark Overlay for text readability */}
-            <div className="absolute inset-0 bg-black/40"></div>
-          </motion.div>
-        </AnimatePresence>
+        {/* Simple fade without motion library for better mobile perf */}
+        <div
+          key={currentIndex}
+          className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000"
+          style={{ 
+            backgroundImage: `url(${window.innerWidth > 768 ? slides[currentIndex].imageLarge : slides[currentIndex].image})` 
+          }}
+        >
+          {/* Dark Overlay for text readability */}
+          <div className="absolute inset-0 bg-black/40"></div>
+        </div>
 
-        {/* TEXT CONTENT ANIMATION */}
+        {/* TEXT CONTENT - Static on mobile, animated on desktop */}
         <div className="absolute inset-0 flex items-center justify-center text-center text-neutral-content z-10">
           <div className="max-w-2xl px-4 sm:px-6">
-            <AnimatePresence mode='wait'>
-              <motion.div
-                key={currentIndex}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }} // Delay text slightly after bg
-              >
-                <h1 className="mb-3 sm:mb-5 text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight">
-                  {slides[currentIndex].title}
-                </h1>
-                
-                <p className="mb-6 sm:mb-8 text-sm sm:text-base md:text-lg lg:text-xl font-light opacity-90">
-                  {slides[currentIndex].subtitle}
-                </p>
+            <div className="transition-opacity duration-500">
+              <h1 className="mb-3 sm:mb-5 text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight">
+                {slides[currentIndex].title}
+              </h1>
+              
+              <p className="mb-6 sm:mb-8 text-sm sm:text-base md:text-lg lg:text-xl font-light opacity-90">
+                {slides[currentIndex].subtitle}
+              </p>
 
-                <motion.button 
-                  className="btn btn-sm sm:btn-md lg:btn-lg border-none hover:scale-105 transition-transform rounded-full bg-white text-black font-semibold"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {slides[currentIndex].button}
-                </motion.button>
-              </motion.div>
-            </AnimatePresence>
+              <button className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-black text-base sm:text-lg font-semibold rounded-full hover:scale-105 transition-transform duration-300 shadow-lg">
+                {slides[currentIndex].button}
+              </button>
+            </div>
           </div>
         </div>
 

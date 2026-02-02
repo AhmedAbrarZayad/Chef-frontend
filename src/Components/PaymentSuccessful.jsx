@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
 
 const PaymentSuccessful = () => {

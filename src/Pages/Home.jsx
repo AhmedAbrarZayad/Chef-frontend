@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import Hero from '../Components/Hero';
-import CardGrid from '../Components/CardGrid';
-import ReviewsLayout from '../Components/ReviewsLayout';
-import HowItWorks from '../Components/HowItWorks';
 import Features from '../Components/Features';
-import Categories from '../Components/Categories';
-import Statistics from '../Components/Statistics';
-import FAQ from '../Components/FAQ';
-import Newsletter from '../Components/Newsletter';
-import CallToAction from '../Components/CallToAction';
+import CardGrid from '../Components/CardGrid';
+
+// Lazy load components that are below the fold
+const Categories = lazy(() => import('../Components/Categories'));
+const Statistics = lazy(() => import('../Components/Statistics'));
+const HowItWorks = lazy(() => import('../Components/HowItWorks'));
+const ReviewsLayout = lazy(() => import('../Components/ReviewsLayout'));
+const FAQ = lazy(() => import('../Components/FAQ'));
+const CallToAction = lazy(() => import('../Components/CallToAction'));
+const Newsletter = lazy(() => import('../Components/Newsletter'));
 
 const Home = () => {
     return (
@@ -19,13 +21,14 @@ const Home = () => {
                 <h1 className='text-4xl font-bold text-center my-8'>Popular Meals</h1>
                 <CardGrid />
             </div>
-            <Categories />
-            <Statistics />
-            <HowItWorks />
-            <ReviewsLayout />
-            <FAQ />
-            <CallToAction />
-            <Newsletter />
+            <Suspense fallback={<div className="h-20" />}>
+                <Categories />
+                <HowItWorks />
+                <ReviewsLayout />
+                <FAQ />
+                <CallToAction />
+                <Newsletter />
+            </Suspense>
         </div>
     );
 };

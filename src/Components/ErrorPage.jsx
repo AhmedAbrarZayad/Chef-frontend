@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useRouteError } from 'react-router';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 const ErrorPage = () => {
     const navigate = useNavigate();

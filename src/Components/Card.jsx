@@ -1,6 +1,6 @@
 import React from 'react';
-// Corrected import path for Framer Motion
-import { motion } from 'framer-motion';
+// Corrected import path for Motion
+import { motion } from 'motion/react';
 import { useNavigate } from 'react-router';
 
 const Card = ({ meal }) => {
@@ -17,7 +17,6 @@ const Card = ({ meal }) => {
     } = meal;
 
     const viewMeal = () => {
-        console.log(`Navigating to meal ID: ${meal._id}`);
         navigate(`/meals/${meal._id}`);
     }
 
@@ -38,6 +37,7 @@ const Card = ({ meal }) => {
                     alt={foodName} 
                     className="object-cover w-full h-full"
                     loading="lazy"
+                    decoding="async"
                 />
                 
                 {/* Price Tag (Top Left) */}

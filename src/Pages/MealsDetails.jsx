@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
-import { motion } from 'framer-motion'; // Assuming you meant framer-motion for the motion library based on usage
+import { motion } from 'motion/react'; // Assuming you meant framer-motion for the motion library based on usage
 import { useNavigate, useParams } from 'react-router';
 import { set, useForm } from 'react-hook-form';
 import { useAuth } from '../Hooks/useAuth';

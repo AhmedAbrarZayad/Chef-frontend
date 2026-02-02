@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useAuth } from '../Hooks/useAuth';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useQuery } from '@tanstack/react-query';
 
 const CreateMeals = () => {

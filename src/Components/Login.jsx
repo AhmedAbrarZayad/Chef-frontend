@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../Hooks/useAxiosSecure';
 
 const Login = () => {
     const { signIn, signInWithGoogle } = useAuth();
@@ -11,6 +12,7 @@ const Login = () => {
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
     const [loading, setLoading] = useState(false);
+    const axiosSecure = useAxiosSecure();
     const {
         register,
         handleSubmit,
@@ -38,7 +40,27 @@ const Login = () => {
     const handleGoogleSignIn = async () => {
         setLoading(true);
         try {
-            await signInWithGoogle();
+            const result = await signInWithGoogle();
+            const user = result.user;
+
+            // Create user document in database
+            const newUser = {
+                name: user.displayName,
+                email: user.email,
+                photoURL: user.photoURL,
+                address: 'Not provided',
+                role: 'user',
+                status: 'active',
+                fraud: 'no',
+            };
+            
+            // Try to add user to database (will be handled by backend if exists)
+            try {
+                await axiosSecure.post('/addUsers', newUser);
+            } catch (dbErr) {
+                // User might already exist, which is fine
+                console.log('User might already exist:', dbErr);
+            }
             navigate(from, { replace: true });
         } catch (err) {
             Swal.fire({
